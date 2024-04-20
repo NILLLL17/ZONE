@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZONE </title>
+  <link rel="stylesheet" href="styles.css"> 
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Sedan:ital@0;1&display=swap');
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      font-family:sans-serif;
+        color:#ccc;
+        background-color: #282828;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    
+    
+    
+    .zoom-in {
+      animation: zoomIn 0.3s ease forwards;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: scale(1.5);
+        opacity: 0.8;
+      }
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #282828;
+    }
+    
+    header {
+      background-color: #282828;
+      color: #00fbff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative; 
+    }
+    
+    h1 {
+      font-family: 'Archivo Black', sans-serif;
+      text-align: center;
+      margin: 0;
+      font-size: 50px;
+      letter-spacing: 5px;
+    }
+    h2{
+      font-family: 'Archivo Black', sans-serif;
+      color: #00fbff;
+      font-size: 20px;
+    }
+    .logo {
+      width: 250px;
+      position: absolute;
+      left: -40px;
+      top: 100%; 
+      transform: translateY(-50%); 
+    }
+    
+    .container {
+      max-width: 1650px; 
+      width: 90%;   
+      margin: 5px auto;
+      height: auto;
+      padding: 5px;
+      background-color: #afafaf;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .wallpapers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-gap: 10px;
+      justify-content: center;
+    }
+    
+    .wallpaper {
+      position: relative;
+      cursor: default;
+      overflow: hidden;
+      height: auto;
+      padding-top: calc(100% * 3 / 4);
+      display: block;
+    }
+    
+    .wallpaper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    
+    nav {
+      background-color: #444;
+      padding: 10px 0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    nav a {
+      font-family: 'Archivo Black se', sans-serif ;
+      color: #fefefe;
+      text-decoration: none;
+      padding: 0 100px;
+      margin: 0 10px;
+    }
+    
+    nav a:hover {
+      background-color: #555;
+      text-decoration: underline;
+    }
+    
+    .filter-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .filter-button {
+      padding: 8px 20px;
+      border: none;
+      background-color: #00d9e0;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    
+    .filter-button:hover {
+      background-color: #00c5bb;
+    }
+    .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dialog-content {
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dialog-content input,
+        .dialog-content textarea,
+        .dialog-content button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .dialog-content button {
+            background-color: #00d9e0;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dialog-content button:hover {
+            background-color: #00c5bb;
+        }
+    
+    @media screen and (max-width: 900px) {
+      .wallpapers {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media screen and (max-width: 600px) {
+      .wallpapers {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: contain;
+    }
+    
+    .modal.show {
+      display: flex;
+    }
+    
+    #preview-close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 1000;
+    }
+
+    #contact-dialog {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Ensure it appears above other elements */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+    
+  </style>
+</head>
+<body>
+    
+  
+
+  <header>
+    <img src="image/zoneee.png" alt="ZONEE Logo" class="logo">
+    <h1>ZONE</h1>
+  </header>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="#" id="about-link">About us</a>
+
+    <a href="#" id="open-contact-dialog">Contact</a>
+
+    
+    <div class="dialog-overlay" id="contact-dialog">
+        <div class="dialog-content">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <button id="close-contact-dialog">Close</button>
+        </div>
+    </div>
+    <!-- Your existing code continues here -->
+    <div id="preview-modal" class="modal">
+        <span id="preview-close-button">&times;</span>
+        <img id="preview-image" class="modal-content">
+    </div>
+
+  </nav>
+  <div class="filter-container">
+    <button class="filter-button" data-category="ALL">ALL</button>
+    <button class="filter-button" data-category="CODM">CODM</button>
+    <button class="filter-button" data-category="FARLIGHT">FARLIGHT</button>
+    <button class="filter-button" data-category="MLBB">MLBB</button>
+    <button class="filter-button" data-category="GENSHIN IMPACT">GENSHIN IMPACT</button>
+</div>
+<div class="container">
+    <div class="wallpapers">
+        <div class="wallpaper" data-tags="MLBB">
+            <a href="image/guinevere.jpg" > 
+                <img src="image/guinevere.jpg" class="zoomable-image"   >
+            </a>
+            <a href="image/guinevere.jpg" class="view-button">View</a> 
+        </div>
+        <div class="wallpaper" data-tags="MLBB">
+            <a href="image/guinling.jpg">
+                <img src="image/guinling.jpg" class="zoomable-image">
+            </a>
+            <a href="image/guinling.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="MLBB">
+            <a href="image/ml3.jpg3">
+                <img src="image/ml3.jpg" class="zoomable-image">
+            </a>
+            <a href="image/ml3.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="MLBB">
+            <a href="image/ml4.jpg">
+                <img src="image/ml4.jpg" class="zoomable-image">
+            </a>
+            <a href="image/ml4.jpg" class="view-button">View</a>
+        </div>
+        
+        
+        <div class="wallpaper" data-tags="FARLIGHT">
+            <a href="image/farlight 84.jpg">
+                <img src="image/farlight 84.jpg" class="zoomable-image">
+            </a>
+            <a href="image/farlight 84.jpg" class="view-button">View</a> 
+        </div>
+        <div class="wallpaper" data-tags="FARLIGHT">
+            <a href="image/farlight 84 1.jpg">
+                <img src="image/farlight 84 1.jpg" class="zoomable-image">
+            </a>
+            <a href="image/farlight 84 1.jpg" class="view-button">View</a> 
+        </div>
+        <div class="wallpaper" data-tags="FARLIGHT">
+            <a href="image/fl1.jpg">
+                <img src="image/fl1.jpg" class="zoomable-image">
+            </a>
+            <a href="image/fl1.jpg" class="view-button">View</a> 
+        </div>
+        <div class="wallpaper" data-tags="FARLIGHT">
+            <a href="image/fl2.jpg">
+                <img src="image/fl2.jpg" class="zoomable-image">
+            </a>
+            <a href="image/fl2.jpg" class="view-button">View</a> 
+        </div>
+
+        <div class="wallpaper" data-tags="GENSHIN IMPACT">
+            <a href="image/gensh.jpg">
+                <img src="image/gensh.jpg" class="zoomable-image">
+            </a>
+            <a href="image/gensh.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="GENSHIN IMPACT">
+            <a href="image/gensh2.jpg">
+                <img src="image/gensh2.jpg" class="zoomable-image">
+            </a>
+            <a href="image/gensh.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="GENSHIN IMPACT">
+            <a href="image/gensh3.jpg">
+                <img src="image/gensh3.jpg" class="zoomable-image">
+            </a>
+            <a href="image/gensh3.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="GENSHIN IMPACT">
+            <a href="image/gensh4.jpg">
+                <img src="image/gensh4.jpg" class="zoomable-image">
+            </a>
+            <a href="image/gensh4.jpg" class="view-button">View</a>
+        </div>
+
+        <div class="wallpaper" data-tags="CODM">
+            <a href="image/cod1.jpg">
+                <img src="image/cod1.jpg" class="zoomable-image">
+            </a>
+            <a href="image/cod1.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="CODM">
+            <a href="image/cod2.jpg">
+                <img src="image/cod2.jpg" class="zoomable-image">
+            </a>
+            <a href="image/cod2.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="CODM">
+            <a href="image/cod3.jpg" class="zoomable-image">
+                <img src="image/cod3.jpg">
+            </a>
+            <a href="image/cod3.jpg" class="view-button">View</a>
+        </div>
+        <div class="wallpaper" data-tags="CODM">
+            <a href="image/cod4.jpg" >
+                <img src="image/cod4.jpg" class="zoomable-image">
+            </a>
+            <a href="image/cod4.jpg" class="view-button">View</a> 
+        </div>
+    </div>
+</div>
+<div id="preview-modal" class="modal">
+    <span id="preview-close-button">&times;</span>
+    <img id="preview-image" class="modal-content">
+</div>
+<div id="about-modal" class="modal">
+    <div class="modal-content">
+      <h2>ZONE</h2>
+      <p>Welcome to the World of ZONE: HD Desktop Game Wallpapers
+
+        Welcome to the realm of ZONE, where every pixel tells a story and every image immerses you in the captivating universe of gaming. Here, I invite you to embark on a journey through a gallery of high-definition wallpapers that bring your favorite games to life on your desktop screen.
+        
+        As the curator of ZONE, I am passionate about curating a collection that captures the essence of gaming in its most visually stunning form. Each wallpaper in our collection is meticulously chosen to showcase the vibrant worlds, iconic characters, and epic moments that define the gaming experience.
+        
+        At ZONE, we understand that gaming is more than just a hobby—it's a lifestyle. That's why we've assembled a diverse array of wallpapers that cater to every gamer, whether you're a fan of action-packed shooters, immersive RPGs, adrenaline-fueled racing games, or mesmerizing adventure titles.
+        
+        Step into our gallery, and you'll find yourself surrounded by breathtaking landscapes, thrilling battle scenes, and dynamic character portraits that reflect the diverse tapestry of gaming culture. From the post-apocalyptic wastelands of Fallout to the mythical realms of The Witcher, from the futuristic cities of Cyberpunk to the cosmic wonders of Mass Effect, our collection spans genres, eras, and universes to ensure that every gamer finds something that resonates with their passion.
+        
+        But ZONE is more than just a collection of images—it's a celebration of the artistry and creativity that define the gaming industry. Each wallpaper is a testament to the dedication of developers, artists, and storytellers who bring these virtual worlds to life, inviting you to become part of the narrative with every click of your mouse.
+        
+        With features like high-resolution downloads, widescreen compatibility, and regular updates, ZONE is committed to providing you with the best possible gaming experience. Whether you're decking out your gaming rig with the latest AAA titles or reliving the classics that shaped your gaming journey, our wallpapers ensure that your desktop screen is as epic and immersive as the games themselves.
+        
+        Join us on this epic quest through the realms of gaming, where every wallpaper is a portal to adventure, excitement, and endless possibilities. Whether you're seeking inspiration for your next gaming session, customizing your desktop to reflect your favorite titles, or simply indulging in nostalgia for the games of yesteryear, ZONE is here to enhance your gaming experience one pixel at a time.
+        
+        Welcome to ZONE: HD Desktop Game Wallpapers—where the magic of gaming comes to life in stunning high definition, and every wallpaper is a masterpiece waiting to be discovered.</p>
+      <button id="close-about-button">Close</button>
+    </div>
+<script src="scrip.js"></script>
+
+
+</body> 
+</html>
